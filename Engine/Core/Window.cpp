@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Debug.h"
 
 Window::Window() {
 	window = nullptr;
@@ -11,7 +12,7 @@ Window::~Window() {
 
 bool Window::OnCreate(std::string _name, int _width, int _height) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) { 
-		std::cout << "Error: Failed to initialise SDL" << std::endl;
+		Debug::LogError("Failed to init SDL", __FILE__, __LINE__);
 		return false; 
 	}
 	width = _width;
@@ -19,14 +20,14 @@ bool Window::OnCreate(std::string _name, int _width, int _height) {
 	PreWindowConfig();
 	window = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
 	if (window == NULL) { 
-		std::cout << "Error: Failed to initialise window" << std::endl;
+		Debug::LogError("Failed to create window", __FILE__, __LINE__);
 		return false; 
 	}
 	glContext = SDL_GL_CreateContext(window);
 	PostWindowConfig();
 	GLenum error = glewInit();
 	if (error != GLEW_OK) {
-		std::cout << "Error: Failed to initialise GLEW" << std::endl;
+		Debug::LogError("Failed to initialise GLEW", __FILE__, __LINE__);
 		return false;
 	}
 	glEnable(GL_DEPTH_TEST);

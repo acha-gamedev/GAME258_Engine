@@ -19,23 +19,28 @@ public:
 	Window();
 	~Window();
 
-	//Create and intialize the window
+	//Create and intialize the window; returns true if successful, false if an error occured
 	//PARAMS: _name: the name of the window; _width: the width of the window, in pixels; _height: height of the window, in pixels
-	//OUT: true if completed, false if an error occured
 	bool OnCreate(std::string _name, int _width, int _height);
+
 	//Destroy and clean up the window
 	void OnDestroy();
+
 	//Get the pointer to the window
 	inline SDL_Window* GetWindow() const { return window; }
-	//Get the width of the window, in pixels
+
+	//Returns the width of the window, in pixels
 	inline int GetWidth() const { return width; }
-	//Get the height of the window, in pixels
+
+	//Returns the height of the window, in pixels
 	inline int GetHeight() const { return height; }
+
 private:
 	//Intialise GL settings; call before window construction
 	void PreWindowConfig();
+
 	//Intialise GL settings; call after window construction
 	void PostWindowConfig();
 };
 
-#endif
+#endif //WINDOW_H

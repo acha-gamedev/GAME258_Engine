@@ -1,0 +1,1 @@
+[INFO]: Engine created successfully in C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Engine\Core\CoreEngine.cpp at line 26
