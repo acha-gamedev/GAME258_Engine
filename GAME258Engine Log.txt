@@ -1,1 +1,3 @@
+[INFO]: Created Start Scene in C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Game\Scenes\StartScene.cpp at line 12
 [INFO]: Engine created successfully in C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Engine\Core\CoreEngine.cpp at line 26
+[INFO]: Created Game Scene in C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Game\Scenes\GameScene.cpp at line 11

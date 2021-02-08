@@ -1,5 +1,6 @@
 #include "StartScene.h"
 #include "../../Engine/Core/Debug.h"
+#include "../../Engine/Core/CoreEngine.h"
 #include <iostream>
 
 StartScene::StartScene() {}
@@ -13,6 +14,8 @@ bool StartScene::OnCreate()
 	return true;
 }
 
-void StartScene::Update(const float dTime) {}
+void StartScene::Update(const float dTime) {
+	CoreEngine::GetInstance()->SetCurrentScene(1);
+}
 
 void StartScene::Render() {}

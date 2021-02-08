@@ -30,7 +30,7 @@ bool CoreEngine::OnCreate(std::string _name, int _width, int _height) {
 void CoreEngine::Run() {
     while (isRunning) {
         timer->Update();
-        //HandleEvents();
+        HandleEvents();
         Update(timer->GetDeltaTime());
         Render();
         SDL_Delay(timer->GetSleepTime(fps));
@@ -51,14 +51,14 @@ void CoreEngine::SetGameInstance(GameInterface* _gameInstance) {
 }
 
 void CoreEngine::HandleEvents() {
-    //SDL_Event sdlEvent;
-    //while (SDL_PollEvent(&sdlEvent)) {
-    //    switch (sdlEvent.type) {
-    //    case SDL_QUIT:
-    //        isRunning = false;
-    //        break;
-    //    }
-    //}
+    SDL_Event sdlEvent;
+    while (SDL_PollEvent(&sdlEvent)) {
+        switch (sdlEvent.type) {
+        case SDL_QUIT:
+            isRunning = false;
+            break;
+        }
+    }
 }
 
 void CoreEngine::Update(const float dTime) {

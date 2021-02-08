@@ -1,5 +1,5 @@
 #ifndef COREENGINE_H
-#define COREENGINE_H
+#define COREENGINE_H 
 
 #include "Window.h"
 #include "Timer.h"
