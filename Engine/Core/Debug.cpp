@@ -39,7 +39,7 @@ void Debug::WriteLog(const MessageType _type, const std::string& _message, const
 	if (_type <= severity && severity > MessageType::TYPE_NONE) {
 		std::ofstream out;
 		out.open(outputName.c_str(), std::ios::app | std::ios::out);
-		out << _message << " in " << _filename << " at line " << _line << std::endl;
+		out << _message << " : " << _filename << " at line " << _line << std::endl;
 		out.flush();
 		out.close();
 	}

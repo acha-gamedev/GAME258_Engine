@@ -1,4 +1,5 @@
 #include "CoreEngine.h"
+#include "../Rendering/3D/GameObject.h"
 
 std::unique_ptr<CoreEngine> CoreEngine::engineInstance = nullptr;
 
@@ -58,6 +59,7 @@ void CoreEngine::HandleEvents() {
             isRunning = false;
             break;
         }
+        //gameInstance->HandleEvents(sdlEvent);
     }
 }
 

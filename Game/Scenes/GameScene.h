@@ -2,8 +2,12 @@
 #define GAMESCENE_H
 
 #include "../../Engine/Core/Scene.h"
+#include "../../Engine/Rendering/3D/GameObject.h"
 
 class GameScene : public Scene {
+private:
+	GameObject* triangle;
+
 public:
 	GameScene();
 	virtual ~GameScene();
