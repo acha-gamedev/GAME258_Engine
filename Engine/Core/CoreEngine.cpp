@@ -1,5 +1,6 @@
 #include "CoreEngine.h"
 #include "../Rendering/3D/GameObject.h"
+#include "../Rendering/ShaderHandler.h"
 
 std::unique_ptr<CoreEngine> CoreEngine::engineInstance = nullptr;
 
@@ -22,6 +23,7 @@ bool CoreEngine::OnCreate(std::string _name, int _width, int _height) {
             return isRunning = false;
         }
     }
+    ShaderHandler::GetInstance()->CreateProgram("ColourShader", "Engine/Shaders/ColourShader_Vert.glsl", "Engine/Shaders/ColourShader_Frag.glsl");
     timer = new Timer();
     timer->Start();
     Debug::LogInfo("Engine created successfully", __FILE__, __LINE__);
@@ -80,6 +82,7 @@ void CoreEngine::Render() {
 }
 
 void CoreEngine::OnDestroy() {
+    ShaderHandler::GetInstance()->OnDestroy();
     if (gameInstance) {
         delete gameInstance;
         gameInstance = nullptr;

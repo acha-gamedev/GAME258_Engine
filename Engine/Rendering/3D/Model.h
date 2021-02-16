@@ -5,9 +5,10 @@
 
 class Model {
 private:
+	GLuint shader;
 	std::vector<Mesh*> meshes;
 public:
-	Model();
+	Model(GLuint _shader);
 	~Model();
 
 	//Draw all meshes to the screen

@@ -48,6 +48,9 @@
     <ClCompile Include="Engine\Rendering\3D\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Rendering\ShaderHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Window.h">
@@ -86,5 +89,16 @@
     <ClInclude Include="Engine\Rendering\3D\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Rendering\ShaderHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Shaders\ColourShader_Frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Engine\Shaders\ColourShader_Vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

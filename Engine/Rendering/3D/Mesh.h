@@ -4,6 +4,7 @@
 #include <glew.h>
 #include <vector>
 #include <glm/glm.hpp>
+#include "../ShaderHandler.h"
 
 struct Vertex {
 	glm::vec3 position;
