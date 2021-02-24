@@ -102,3 +102,8 @@ void CoreEngine::OnDestroy() {
 void CoreEngine::Exit() {
     isRunning = false;
 }
+
+glm::vec2 CoreEngine::GetWindowSize() const
+{
+    return glm::vec2(window->GetWidth(), window->GetHeight());
+}

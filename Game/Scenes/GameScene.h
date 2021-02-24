@@ -7,7 +7,7 @@
 class GameScene : public Scene {
 private:
 	GameObject* triangle;
-
+	Model* model;
 public:
 	GameScene();
 	virtual ~GameScene();

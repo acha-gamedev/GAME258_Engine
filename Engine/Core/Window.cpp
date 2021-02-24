@@ -30,7 +30,7 @@ bool Window::OnCreate(std::string _name, int _width, int _height) {
 		Debug::LogError("Failed to initialise GLEW", __FILE__, __LINE__);
 		return false;
 	}
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	Debug::LogInfo("OpenGL Version: " + std::string((char*)glGetString(GL_VERSION)), __FILE__, __LINE__);
 	std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 	return true;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "../ShaderHandler.h"
+#include "../../Camera/Camera.h"
 
 struct Vertex {
 	glm::vec3 position;
@@ -16,12 +17,13 @@ struct Vertex {
 class Mesh {
 private:
 	GLuint vao, vbo;
+	GLuint shader, modelLoc, viewLoc, projectionLoc;
 	std::vector<Vertex> vertices;
 public:
-	Mesh(std::vector<Vertex>& _vertexlist);
+	Mesh(std::vector<Vertex>& _vertexlist, GLuint _shader);
 	~Mesh();
 	//Draw the mesh to the screen
-	void Render();
+	void Render(const glm::mat4 transform, const Camera* camera);
 
 private:
 

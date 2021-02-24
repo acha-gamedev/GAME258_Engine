@@ -7,6 +7,8 @@
 #include "GameInterface.h"
 #include "Scene.h"
 #include "Debug.h"
+#include "../Camera/Camera.h"
+#include <glm/glm.hpp>
 
 class CoreEngine {
 private:
@@ -15,6 +17,7 @@ private:
 	Timer* timer;
 	unsigned int fps;
 	GameInterface* gameInstance;
+	Camera* currentCamera;
 	unsigned int currentScene;
 
 	static std::unique_ptr<CoreEngine> engineInstance;
@@ -45,14 +48,22 @@ public:
 	static void SetGameInstance(GameInterface* _gameInstance);
 
 	//Returns the current scene ID
-	inline unsigned int GetCurrentScene() { return currentScene; }
+	inline unsigned int GetCurrentScene() const { return currentScene; }
 	
 	//Sets the current scene by ID
 	//PARAMS: newScene: the new scene's ID
-	inline void SetCurrentScene(unsigned int newScene) { currentScene = newScene; }
+	inline void SetCurrentScene(const unsigned int newScene) { currentScene = newScene; }
 
 	//Returns if the engine is running
-	inline bool GetIsRunning() { return isRunning; }
+	inline bool GetIsRunning() const { return isRunning; }
+
+	//Returns the size of the window, x by y
+	glm::vec2 GetWindowSize() const;
+	//Returns the current Camera instance
+	inline Camera* GetCamera() const { return currentCamera; }
+	//Sets the current Camera instance
+	//PARAMS: _camera: the new camera instance
+	inline void SetCamera(Camera* _camera) { currentCamera = _camera; }
 
 private:
 	CoreEngine();

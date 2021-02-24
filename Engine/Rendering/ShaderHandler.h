@@ -18,11 +18,13 @@ public:
 	ShaderHandler(ShaderHandler&&) = delete;
 	ShaderHandler& operator=(const ShaderHandler&) = delete;
 	ShaderHandler& operator=(ShaderHandler&&) = delete;
-
+	//Returns the pointer to the handler
 	static ShaderHandler* GetInstance();
-
+	//Creates a shader program using the given files
+	//PARAMS: _name: the name to use for the program; vertFile: the vertex shader file; fragFile: the fragment shader file
 	void CreateProgram(const std::string& _name, const std::string& vertFile, const std::string& fragFile);
-
+	//Returns the ID of a program
+	//PARAMS: _name: the name of the program to find
 	GLuint GetShader(const std::string& _name) const;
 
 	void OnDestroy();
