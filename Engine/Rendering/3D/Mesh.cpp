@@ -1,8 +1,8 @@
 #include "Mesh.h"
 #include <glm/gtc/type_ptr.hpp>
 
-Mesh::Mesh(std::vector<Vertex>& _vertexlist, GLuint _shader) : vao(0), vbo(0), vertices(std::vector<Vertex>()), 
-	shader(_shader), modelLoc(0), viewLoc(0), projectionLoc(0) {
+Mesh::Mesh(std::vector<Vertex>& _vertexlist, GLuint _shader, GLuint _texture) : vao(0), vbo(0), vertices(std::vector<Vertex>()),
+	shader(_shader), modelLoc(0), viewLoc(0), projectionLoc(0), textureID(_texture), textureLoc(0) {
 	vertices = _vertexlist;
 	GenerateBuffers();
 }
@@ -14,13 +14,24 @@ Mesh::~Mesh() {
 }
 
 void Mesh::Render(const glm::mat4 transform, const Camera* camera) {
+	glUniform1i(textureLoc, 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 	glBindVertexArray(vao);
 	glEnable(GL_DEPTH_TEST);
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform));
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
 	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(camera->GetPerspectiveMatrix()));
+	glUniform3fv(cameraPosLoc, 1, glm::value_ptr(camera->GetPosition()));
+	glUniform3fv(lightPosLoc, 1, glm::value_ptr(camera->GetLights().front()->GetPosition()));
+	glUniform1f(lightAmbiLoc, camera->GetLights().front()->GetAmbient());
+	glUniform1f(lightDiffLoc, camera->GetLights().front()->GetDiffuse());
+	glUniform1f(lightSpecLoc, camera->GetLights().front()->GetSpecular());
+	glUniform3fv(lightColourLoc, 1, glm::value_ptr(camera->GetLights().front()->GetColour()));
+
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Mesh::GenerateBuffers() {
@@ -48,4 +59,11 @@ void Mesh::GenerateBuffers() {
 	modelLoc = glGetUniformLocation(shader, "model");
 	viewLoc = glGetUniformLocation(shader, "view");
 	projectionLoc = glGetUniformLocation(shader, "projection");
+	textureLoc = glGetUniformLocation(shader, "inputTexture");
+	cameraPosLoc = glGetUniformLocation(shader, "cameraPos");
+	lightPosLoc = glGetUniformLocation(shader, "light.position");
+	lightAmbiLoc = glGetUniformLocation(shader, "light.ambient");
+	lightDiffLoc = glGetUniformLocation(shader, "light.diffuse");
+	lightSpecLoc = glGetUniformLocation(shader, "light.specular");
+	lightColourLoc = glGetUniformLocation(shader, "light.colour");
 }

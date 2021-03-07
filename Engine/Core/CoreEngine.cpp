@@ -1,6 +1,7 @@
 #include "CoreEngine.h"
 #include "../Rendering/3D/GameObject.h"
 #include "../Rendering/ShaderHandler.h"
+#include "../Rendering/TextureHandler.h"
 
 std::unique_ptr<CoreEngine> CoreEngine::engineInstance = nullptr;
 
@@ -24,6 +25,8 @@ bool CoreEngine::OnCreate(std::string _name, int _width, int _height) {
         }
     }
     ShaderHandler::GetInstance()->CreateProgram("ColourShader", "Engine/Shaders/ColourShader_Vert.glsl", "Engine/Shaders/ColourShader_Frag.glsl");
+    ShaderHandler::GetInstance()->CreateProgram("BasicShader", "Engine/Shaders/Shader_Vert.glsl", "Engine/Shaders/Shader_Frag.glsl");
+    TextureHandler::GetInstance()->CreateTexture("Checkerboard", "Resources/CheckerboardTexture.png");
     timer = new Timer();
     timer->Start();
     Debug::LogInfo("Engine created successfully", __FILE__, __LINE__);
@@ -73,7 +76,7 @@ void CoreEngine::Update(const float dTime) {
 }
 
 void CoreEngine::Render() {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (gameInstance) {
         gameInstance->Render();
@@ -82,6 +85,7 @@ void CoreEngine::Render() {
 }
 
 void CoreEngine::OnDestroy() {
+    TextureHandler::GetInstance()->OnDestroy();
     ShaderHandler::GetInstance()->OnDestroy();
     if (gameInstance) {
         delete gameInstance;

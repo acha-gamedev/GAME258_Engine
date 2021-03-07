@@ -18,9 +18,11 @@ class Mesh {
 private:
 	GLuint vao, vbo;
 	GLuint shader, modelLoc, viewLoc, projectionLoc;
+	GLuint textureID, textureLoc;
+	GLuint cameraPosLoc, lightPosLoc, lightAmbiLoc, lightDiffLoc, lightSpecLoc, lightColourLoc;
 	std::vector<Vertex> vertices;
 public:
-	Mesh(std::vector<Vertex>& _vertexlist, GLuint _shader);
+	Mesh(std::vector<Vertex>& _vertexlist, GLuint _shader, GLuint _texture);
 	~Mesh();
 	//Draw the mesh to the screen
 	void Render(const glm::mat4 transform, const Camera* camera);

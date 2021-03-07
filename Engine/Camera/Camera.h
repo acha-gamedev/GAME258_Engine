@@ -4,8 +4,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glew.h>
+#include <vector>
+#include "../FX/LightSource.h"
 using namespace glm;
-
 
 class Camera {
 private:
@@ -18,6 +19,7 @@ private:
 	float nearPlane, farPlane;
 	vec3 forward, up, right;
 	vec3 worldUp;
+	std::vector<LightSource*> lights;
 public:
 	Camera();
 	virtual ~Camera();
@@ -33,6 +35,13 @@ public:
 	inline mat4 GetPerspectiveMatrix() const { return perspectiveMatrix; }
 	//Returns the orthographic matrix (4x4)
 	inline mat4 GetOrthographicMatrix() const { return orthographicMatrix; }
+	//Adds a light source
+	//PARAMS: _light: the light source to add
+	void AddLight(LightSource* _light);
+	//Returns the list of light sources
+	inline std::vector<LightSource*> GetLights() const { return lights; }
+	//Returns the position of the camera
+	inline vec3 GetPosition() const { return position; }
 private:
 	void UpdateVectors();
 };

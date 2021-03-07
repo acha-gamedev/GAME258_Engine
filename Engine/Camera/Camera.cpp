@@ -16,7 +16,15 @@ Camera::Camera() : position(), perspectiveMatrix(), orthographicMatrix(), viewMa
 	UpdateVectors();
 }
 
-Camera::~Camera() {}
+Camera::~Camera() {
+	if (lights.size() > 0) {
+		for (auto l : lights) {
+			delete l;
+			l = nullptr;
+		}
+	}
+	lights.clear();
+}
 
 void Camera::SetPosition(const vec3 _position) {
 	position = _position;
@@ -27,6 +35,10 @@ void Camera::SetRotation(const float _yaw, const float _pitch) {
 	yaw = _yaw;
 	pitch = _pitch;
 	UpdateVectors();
+}
+
+void Camera::AddLight(LightSource* _light) {
+	lights.push_back(_light);
 }
 
 void Camera::UpdateVectors() {

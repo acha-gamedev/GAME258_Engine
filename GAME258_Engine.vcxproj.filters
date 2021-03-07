@@ -54,6 +54,12 @@
     <ClCompile Include="Engine\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Rendering\TextureHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FX\LightSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Window.h">
@@ -98,12 +104,24 @@
     <ClInclude Include="Engine\Camera\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Rendering\TextureHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FX\LightSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Shaders\ColourShader_Frag.glsl">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Engine\Shaders\ColourShader_Vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Engine\Shaders\Shader_Vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Engine\Shaders\Shader_Frag.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
