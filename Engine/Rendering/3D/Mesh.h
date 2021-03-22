@@ -14,18 +14,23 @@ struct Vertex {
 	glm::vec3 rgbValue;
 };
 
+struct SubMesh {
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indexList;
+	GLuint textureID;
+};
+
 class Mesh {
 private:
 	GLuint vao, vbo;
-	GLuint shader, modelLoc, viewLoc, projectionLoc;
-	GLuint textureID, textureLoc;
-	GLuint cameraPosLoc, lightPosLoc, lightAmbiLoc, lightDiffLoc, lightSpecLoc, lightColourLoc;
-	std::vector<Vertex> vertices;
+	SubMesh submesh;
+	GLuint shader, modelLoc, viewLoc, projectionLoc, textureLoc, cameraPosLoc, lightPosLoc, 
+		lightAmbiLoc, lightDiffLoc, lightSpecLoc, lightColourLoc;
 public:
-	Mesh(std::vector<Vertex>& _vertexlist, GLuint _shader, GLuint _texture);
+	Mesh(SubMesh& _submesh, GLuint _shader);
 	~Mesh();
 	//Draw the mesh to the screen
-	void Render(const glm::mat4 transform, const Camera* camera);
+	void Render(std::vector<glm::mat4> transform, const Camera* camera);
 
 private:
 

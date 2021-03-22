@@ -1,25 +1,26 @@
 #include "Mesh.h"
 #include <glm/gtc/type_ptr.hpp>
 
-Mesh::Mesh(std::vector<Vertex>& _vertexlist, GLuint _shader, GLuint _texture) : vao(0), vbo(0), vertices(std::vector<Vertex>()),
-	shader(_shader), modelLoc(0), viewLoc(0), projectionLoc(0), textureID(_texture), textureLoc(0) {
-	vertices = _vertexlist;
+Mesh::Mesh(SubMesh& _submesh, GLuint _shader) : vao(0), vbo(0),
+	shader(_shader), modelLoc(0), viewLoc(0), projectionLoc(0), textureLoc(0) {
+	submesh = _submesh;
 	GenerateBuffers();
 }
 
 Mesh::~Mesh() {
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
-	vertices.clear();
+	submesh.vertices.clear();
+	submesh.indexList.clear();
 }
 
-void Mesh::Render(const glm::mat4 transform, const Camera* camera) {
+void Mesh::Render(std::vector<glm::mat4> transform, const Camera* camera) {
 	glUniform1i(textureLoc, 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
+	glBindTexture(GL_TEXTURE_2D, submesh.textureID);
 	glBindVertexArray(vao);
 	glEnable(GL_DEPTH_TEST);
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
 	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(camera->GetPerspectiveMatrix()));
 	glUniform3fv(cameraPosLoc, 1, glm::value_ptr(camera->GetPosition()));
@@ -29,7 +30,11 @@ void Mesh::Render(const glm::mat4 transform, const Camera* camera) {
 	glUniform1f(lightSpecLoc, camera->GetLights().front()->GetSpecular());
 	glUniform3fv(lightColourLoc, 1, glm::value_ptr(camera->GetLights().front()->GetColour()));
 
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	for (int i = 0; i < transform.size(); i++) {
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform[i]));
+		glDrawArrays(GL_TRIANGLES, 0, submesh.vertices.size());
+	}
+
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
@@ -39,7 +44,7 @@ void Mesh::GenerateBuffers() {
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, submesh.vertices.size() * sizeof(Vertex), &submesh.vertices[0], GL_STATIC_DRAW);
 
 	//Position
 	glEnableVertexAttribArray(0);

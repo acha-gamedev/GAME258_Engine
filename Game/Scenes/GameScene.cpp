@@ -4,7 +4,7 @@
 #include "../../Engine/Rendering/TextureHandler.h"
 #include <iostream>
 
-GameScene::GameScene() : triangle(nullptr), model(nullptr) {}
+GameScene::GameScene() : triangle(nullptr) {}
 
 GameScene::~GameScene() {
 	if (triangle) {
@@ -22,7 +22,8 @@ bool GameScene::OnCreate()
 	CoreEngine::GetInstance()->GetCamera()->SetPosition(glm::vec3(0.0f, 0.0f, 4.0f));
 	CoreEngine::GetInstance()->GetCamera()->AddLight(new LightSource(glm::vec3(0.0f, 0.5f, 2.0f),
 		0.1f, 0.5f, 0.5f, glm::vec3(1.0f, 1.0f, 1.0f)));
-
+	//old code
+	/*
 	Vertex v;
 	std::vector<Vertex> vertexList;
 	vertexList.reserve(36);
@@ -245,21 +246,28 @@ bool GameScene::OnCreate()
 	vertexList.push_back(v);
 	}
 
-	model = new Model(ShaderHandler::GetInstance()->GetShader("BasicShader"));
-	model->AddMesh(new Mesh(vertexList, ShaderHandler::GetInstance()->GetShader("BasicShader"), 
-		TextureHandler::GetInstance()->GetTextureID("Checkerboard")));
+	Model* model = new Model(ShaderHandler::GetInstance()->GetShader("BasicShader"), "", "");
+	SubMesh submesh;
+	submesh.vertices = vertexList;
+	submesh.textureID = TextureHandler::GetInstance()->GetTextureID("Checkerboard");
+	model->AddMesh(new Mesh(submesh, ShaderHandler::GetInstance()->GetShader("BasicShader")));
 	//model->AddMesh(new Mesh(vertexList2, ShaderHandler::GetInstance()->GetShader("ColourShader")));
 	triangle = new GameObject(model);
-
-	model->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+	
+	triangle->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+	*/
+	Model* model = new Model(ShaderHandler::GetInstance()->GetShader("BasicShader"),
+		"Resources/Models/Apple.obj", "Resources/Materials/Apple.mtl");
+	triangle = new GameObject(model);
+	triangle->SetScale(glm::vec3(0.5, 0.5, 0.5));
 
 	return true;
 }
 
 void GameScene::Update(const float dTime) {
-	float  _angle = model->GetAngle();
+	float  _angle = triangle->GetAngle();
 	_angle += 0.005f;
-	model->SetAngle(_angle);
+	triangle->SetAngle(_angle);
 }
 
 void GameScene::Render() {
