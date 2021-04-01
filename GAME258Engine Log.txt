@@ -1,4 +1,4 @@
 [INFO]: OpenGL Version: 4.5.0 - Build 27.20.100.8681 : C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Engine\Core\Window.cpp at line 34
 [INFO]: Created Start Scene : C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Game\Scenes\StartScene.cpp at line 12
-[INFO]: Engine created successfully : C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Engine\Core\CoreEngine.cpp at line 32
+[INFO]: Engine created successfully : C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Engine\Core\CoreEngine.cpp at line 34
 [INFO]: Created Game Scene : C:\Users\Alvin Ang\Documents\2020-2021 Projects\GAME258_Engine\Game\Scenes\GameScene.cpp at line 18

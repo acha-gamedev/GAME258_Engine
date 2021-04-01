@@ -17,7 +17,7 @@ public:
 	~Model();
 
 	//Draw all meshes to the screen
-	void Render(const Camera* camera, const unsigned int index);
+	void Render(const Camera* camera);
 
 	//Add a mesh to the model
 	void AddMesh(Mesh* _mesh);
@@ -27,6 +27,8 @@ public:
 	void UpdateInstance(unsigned int index, glm::vec3 _position, float _angle, glm::vec3 _rotation, glm::vec3 _scale);
 
 	glm::mat4 GetTransform(const unsigned int index) const;
+
+	inline GLuint GetShader() const { return shader; }
 
 private:
 	glm::mat4 CreateTransform(glm::vec3 _position, float _angle, glm::vec3 _rotation, glm::vec3 _scale);

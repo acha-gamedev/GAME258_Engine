@@ -34,7 +34,7 @@ void Model::UpdateInstance(unsigned int index, glm::vec3 _position, float _angle
 	instances[index] = CreateTransform(_position, _angle, _rotation, _scale);
 }
 
-void Model::Render(const Camera* camera, const unsigned int index) {
+void Model::Render(const Camera* camera) {
 	glUseProgram(shader);
 	for (auto m : meshes) {
 		m->Render(instances, camera);

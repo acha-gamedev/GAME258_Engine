@@ -3,10 +3,11 @@
 
 #include "../../Engine/Core/Scene.h"
 #include "../../Engine/Rendering/3D/GameObject.h"
+#include "../../Engine/Rendering/SceneGraph.h"
 
 class GameScene : public Scene {
 private:
-	GameObject* triangle;
+	//GameObject* triangle;
 public:
 	GameScene();
 	virtual ~GameScene();

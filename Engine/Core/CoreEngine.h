@@ -10,6 +10,7 @@
 #include "../Camera/Camera.h"
 #include <glm/glm.hpp>
 
+
 class CoreEngine {
 private:
 	Window* window;

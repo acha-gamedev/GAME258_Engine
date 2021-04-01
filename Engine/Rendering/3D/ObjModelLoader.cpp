@@ -1,7 +1,7 @@
 #include "ObjModelLoader.h"
 #include "../../Core/Debug.h"
 
-ObjModelLoader::ObjModelLoader() : textureID(0) {}
+ObjModelLoader::ObjModelLoader() : material() {}
 
 ObjModelLoader::~ObjModelLoader() {
 	vertices.clear();
@@ -23,7 +23,7 @@ ObjModelLoader::~ObjModelLoader() {
 }
 
 void ObjModelLoader::LoadOBJ(std::string _objFilepath, std::string _matFilepath) {
-	LoadMaterial(_matFilepath);
+	LoadMaterialLibrary(_matFilepath);
 	LoadModel(_objFilepath);
 }
 
@@ -86,7 +86,7 @@ void ObjModelLoader::LoadModel(std::string _objFilepath) {
 			if (indices.size() > 0) {
 				PostProcess();
 			}
-			LoadTexture(line.substr(7));
+			LoadMaterial(line.substr(7));
 		}
 	}
 	if (indices.size() > 0) {
@@ -94,28 +94,29 @@ void ObjModelLoader::LoadModel(std::string _objFilepath) {
 	}
 }
 
-void ObjModelLoader::LoadMaterial(std::string _matFilepath) {
-	std::ifstream file(_matFilepath.c_str(), std::ios::in);
-	if (!file) {
-		Debug::LogError("Could not open MTL file " + _matFilepath, "Engine/Rendering/3D/ObjModelLoader", __LINE__);
-		return;
-	}
+void ObjModelLoader::LoadMaterialLibrary(std::string _matFilepath) {
+	MaterialLoader::LoadMaterial(_matFilepath);
+	//std::ifstream file(_matFilepath.c_str(), std::ios::in);
+	//if (!file) {
+	//	Debug::LogError("Could not open MTL file " + _matFilepath, "Engine/Rendering/3D/ObjModelLoader", __LINE__);
+	//	return;
+	//}
 
-	std::string line;
-	while (std::getline(file, line)) {
-		if (line.substr(0, 7) == "newmtl ") {
-			LoadTexture(line.substr(7));
-		}
-	}
+	//std::string line;
+	//while (std::getline(file, line)) {
+	//	if (line.substr(0, 7) == "newmtl ") {
+	//		LoadMaterial(line.substr(7));
+	//	}
+	//}
 }
 
-void ObjModelLoader::LoadTexture(std::string _texName) {
-	textureID = TextureHandler::GetInstance()->GetTextureID(_texName);
-	if (textureID == 0) {
-		TextureHandler::GetInstance()->CreateTexture(_texName, "Resources/Textures/" + _texName + ".png");
-		textureID = TextureHandler::GetInstance()->GetTextureID(_texName);
-	}
-	
+void ObjModelLoader::LoadMaterial(std::string _name) {
+	material = MaterialHandler::GetInstance()->GetMaterial(_name);
+	//if (material.diffuseMap == 0) {
+	//	TextureHandler::GetInstance()->CreateTexture(_name, "Resources/Textures/" + _name + ".png");
+	//	textureID = TextureHandler::GetInstance()->GetTextureID(_texName);
+	//}
+	//
 }
 
 void ObjModelLoader::PostProcess() {
@@ -128,7 +129,7 @@ void ObjModelLoader::PostProcess() {
 	}
 	SubMesh temp;
 	temp.vertices = vertexObjects;
-	temp.textureID = textureID;
+	temp.material = material;
 	temp.indexList = indices;
 	submeshes.push_back(temp);
 
@@ -136,5 +137,5 @@ void ObjModelLoader::PostProcess() {
 	normalIndices.clear();
 	uvIndices.clear();
 	vertexObjects.clear();
-	textureID = 0;
+	material = Material();
 }

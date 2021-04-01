@@ -2,7 +2,7 @@
 #define OBJMODELLOADER_H
 
 #include "Mesh.h"
-#include "../TextureHandler.h"
+#include "../../FX/MaterialLoader.h"
 #include <sstream>
 #include <memory>
 
@@ -16,7 +16,7 @@ private:
 	std::vector<unsigned int> uvIndices;
 	std::vector<Vertex> vertexObjects;
 	std::vector<SubMesh> submeshes;
-	GLuint textureID;
+	Material material;
 
 public:
 	ObjModelLoader();
@@ -26,8 +26,8 @@ public:
 
 private:
 	void LoadModel(std::string _objFilepath);
-	void LoadMaterial(std::string _matFilepath);
-	void LoadTexture(std::string _texName);
+	void LoadMaterialLibrary(std::string _matFilepath);
+	void LoadMaterial(std::string _texName);
 	void PostProcess();
 };
 

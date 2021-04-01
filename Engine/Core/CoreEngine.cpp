@@ -2,6 +2,8 @@
 #include "../Rendering/3D/GameObject.h"
 #include "../Rendering/ShaderHandler.h"
 #include "../Rendering/TextureHandler.h"
+#include "../Rendering/SceneGraph.h"
+#include "../Rendering/MaterialHandler.h"
 
 std::unique_ptr<CoreEngine> CoreEngine::engineInstance = nullptr;
 
@@ -85,6 +87,8 @@ void CoreEngine::Render() {
 }
 
 void CoreEngine::OnDestroy() {
+    SceneGraph::GetInstance()->OnDestroy();
+    MaterialHandler::GetInstance()->OnDestroy();
     TextureHandler::GetInstance()->OnDestroy();
     ShaderHandler::GetInstance()->OnDestroy();
     if (gameInstance) {

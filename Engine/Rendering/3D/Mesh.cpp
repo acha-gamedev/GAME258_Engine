@@ -17,7 +17,7 @@ Mesh::~Mesh() {
 void Mesh::Render(std::vector<glm::mat4> transform, const Camera* camera) {
 	glUniform1i(textureLoc, 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, submesh.textureID);
+	glBindTexture(GL_TEXTURE_2D, submesh.material.diffuseMap);
 	glBindVertexArray(vao);
 	glEnable(GL_DEPTH_TEST);
 
@@ -29,6 +29,11 @@ void Mesh::Render(std::vector<glm::mat4> transform, const Camera* camera) {
 	glUniform1f(lightDiffLoc, camera->GetLights().front()->GetDiffuse());
 	glUniform1f(lightSpecLoc, camera->GetLights().front()->GetSpecular());
 	glUniform3fv(lightColourLoc, 1, glm::value_ptr(camera->GetLights().front()->GetColour()));
+	glUniform1f(shineLoc, submesh.material.shininess);
+	glUniform1f(transparencyLoc, submesh.material.transparency);
+	glUniform3fv(matAmbiLoc, 1, glm::value_ptr(submesh.material.ambientColour));
+	glUniform3fv(matDiffLoc, 1, glm::value_ptr(submesh.material.diffuseColour));
+	glUniform3fv(matSpecLoc, 1, glm::value_ptr(submesh.material.specularColour));
 
 	for (int i = 0; i < transform.size(); i++) {
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform[i]));
@@ -56,19 +61,24 @@ void Mesh::GenerateBuffers() {
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, uvCoords));
 	//Colour
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, rgbValue));
+	//glEnableVertexAttribArray(3);
+	//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, rgbValue));
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	modelLoc = glGetUniformLocation(shader, "model");
 	viewLoc = glGetUniformLocation(shader, "view");
 	projectionLoc = glGetUniformLocation(shader, "projection");
-	textureLoc = glGetUniformLocation(shader, "inputTexture");
 	cameraPosLoc = glGetUniformLocation(shader, "cameraPos");
 	lightPosLoc = glGetUniformLocation(shader, "light.position");
 	lightAmbiLoc = glGetUniformLocation(shader, "light.ambient");
 	lightDiffLoc = glGetUniformLocation(shader, "light.diffuse");
 	lightSpecLoc = glGetUniformLocation(shader, "light.specular");
 	lightColourLoc = glGetUniformLocation(shader, "light.colour");
+	textureLoc = glGetUniformLocation(shader, "mat.texture");
+	shineLoc = glGetUniformLocation(shader, "mat.shininess");
+	transparencyLoc = glGetUniformLocation(shader, "mat.transparency");
+	matAmbiLoc = glGetUniformLocation(shader, "mat.ambiColour");
+	matDiffLoc = glGetUniformLocation(shader, "mat.diffColour");
+	matSpecLoc = glGetUniformLocation(shader, "mat.specColour");
 }
