@@ -12,6 +12,7 @@ protected:
 	Model* model;
 	unsigned int modelInstance;
 	std::string tag;
+	BoundingBox boundingBox;
 public:
 	GameObject(Model* _model = nullptr);
 	GameObject(glm::vec3 _position, Model* _model);

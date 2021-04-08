@@ -35,7 +35,7 @@ void Mesh::Render(std::vector<glm::mat4> transform, const Camera* camera) {
 	glUniform3fv(matDiffLoc, 1, glm::value_ptr(submesh.material.diffuseColour));
 	glUniform3fv(matSpecLoc, 1, glm::value_ptr(submesh.material.specularColour));
 
-	for (int i = 0; i < transform.size(); i++) {
+	for (unsigned int i = 0; i < transform.size(); i++) {
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform[i]));
 		glDrawArrays(GL_TRIANGLES, 0, submesh.vertices.size());
 	}

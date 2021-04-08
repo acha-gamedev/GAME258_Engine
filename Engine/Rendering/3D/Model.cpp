@@ -64,5 +64,6 @@ void Model::LoadModel() {
 		for (int i = 0; i < submeshCount; i++) {
 			meshes.push_back(new Mesh(modelLoader->GetSubMeshes()[i], shader));
 		}
+		boundBox = modelLoader->GetBoundingBox();
 	}
 }

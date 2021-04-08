@@ -9,6 +9,7 @@
 #include "Debug.h"
 #include "../Camera/Camera.h"
 #include <glm/glm.hpp>
+#include "../Events/EventListener.h"
 
 
 class CoreEngine {
@@ -58,20 +59,29 @@ public:
 	//Returns if the engine is running
 	inline bool GetIsRunning() const { return isRunning; }
 
-	//Returns the size of the window, x by y
+	//Returns the size of the window, x (width) by y (height)
 	glm::vec2 GetWindowSize() const;
 	//Returns the current Camera instance
 	inline Camera* GetCamera() const { return currentCamera; }
 	//Sets the current Camera instance
 	//PARAMS: _camera: the new camera instance
 	inline void SetCamera(Camera* _camera) { currentCamera = _camera; }
+	//Notifies on Mouse Button Press
+	//PARAMS: button: the button pressed; position: the position of the mouse
+	void MousePressed(const int button, const glm::ivec2 position);
+	//Notifies on Mouse Button Release
+	//PARAMS: button: the button released; position: the position of the mouse
+	void MouseReleased(const int button, const glm::ivec2 position);
+	//Notifies on mouse movement
+	//PARAMS: position: the position of the mouse
+	void MouseMoved(const glm::ivec2 position);
+	//Notifies on scroll wheel
+	//PARAMS: amount: the amount the scroll wheel was moved
+	void MouseScrolled(const int amount);
 
 private:
 	CoreEngine();
 	~CoreEngine();
-	
-	//Resolve event calls
-	void HandleEvents();
 	
 	//Resolve physics and independent updates
 	//PARAMS: dTime: the amount of time passed between updates

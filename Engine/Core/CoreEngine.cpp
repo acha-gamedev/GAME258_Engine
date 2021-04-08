@@ -29,6 +29,8 @@ bool CoreEngine::OnCreate(std::string _name, int _width, int _height) {
     ShaderHandler::GetInstance()->CreateProgram("ColourShader", "Engine/Shaders/ColourShader_Vert.glsl", "Engine/Shaders/ColourShader_Frag.glsl");
     ShaderHandler::GetInstance()->CreateProgram("BasicShader", "Engine/Shaders/Shader_Vert.glsl", "Engine/Shaders/Shader_Frag.glsl");
     TextureHandler::GetInstance()->CreateTexture("Checkerboard", "Resources/CheckerboardTexture.png");
+    MouseEventListener::RegisterEngine();
+    SDL_WarpMouseInWindow(window->GetWindow(), _width / 2, _height / 2);
     timer = new Timer();
     timer->Start();
     Debug::LogInfo("Engine created successfully", __FILE__, __LINE__);
@@ -38,7 +40,7 @@ bool CoreEngine::OnCreate(std::string _name, int _width, int _height) {
 void CoreEngine::Run() {
     while (isRunning) {
         timer->Update();
-        HandleEvents();
+        EventListener::HandleEvents();
         Update(timer->GetDeltaTime());
         Render();
         SDL_Delay(timer->GetSleepTime(fps));
@@ -58,15 +60,19 @@ void CoreEngine::SetGameInstance(GameInterface* _gameInstance) {
     GetInstance()->gameInstance = _gameInstance;
 }
 
-void CoreEngine::HandleEvents() {
-    SDL_Event sdlEvent;
-    while (SDL_PollEvent(&sdlEvent)) {
-        switch (sdlEvent.type) {
-        case SDL_QUIT:
-            isRunning = false;
-            break;
-        }
-        //gameInstance->HandleEvents(sdlEvent);
+void CoreEngine::MousePressed(const int button, const glm::ivec2 position) {}
+
+void CoreEngine::MouseReleased(const int button, const glm::ivec2 position) {}
+
+void CoreEngine::MouseMoved(const glm::ivec2 position) {
+    if (currentCamera) {
+        currentCamera->MouseMovement(MouseEventListener::GetMouseOffset());
+    }
+}
+
+void CoreEngine::MouseScrolled(const int amount) {
+    if (currentCamera) {
+        currentCamera->MouseScroll(amount);
     }
 }
 

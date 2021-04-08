@@ -3,6 +3,7 @@
 
 #include "Mesh.h"
 #include "../../FX/MaterialLoader.h"
+#include "../../Math/BoundingBox.h"
 #include <sstream>
 #include <memory>
 
@@ -17,12 +18,14 @@ private:
 	std::vector<Vertex> vertexObjects;
 	std::vector<SubMesh> submeshes;
 	Material material;
+	BoundingBox boundBox;
 
 public:
 	ObjModelLoader();
 	~ObjModelLoader();
 	void LoadOBJ(std::string _objFilepath, std::string _matFilepath);
 	std::vector<SubMesh> GetSubMeshes();
+	inline BoundingBox GetBoundingBox() const { return boundBox; }
 
 private:
 	void LoadModel(std::string _objFilepath);

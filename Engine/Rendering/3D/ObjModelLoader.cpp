@@ -45,6 +45,26 @@ void ObjModelLoader::LoadModel(std::string _objFilepath) {
 			std::stringstream v(line.substr(2));
 			float x, y, z;
 			v >> x >> y >> z;
+			if (x > boundBox.maxVertex.x) {
+				boundBox.maxVertex.x = x;
+			}
+			else if (x < boundBox.minVertex.x) {
+				boundBox.minVertex.x = x;
+			}
+
+			if (y > boundBox.maxVertex.y) {
+				boundBox.maxVertex.y = y;
+			}
+			else if (y < boundBox.minVertex.y) {
+				boundBox.minVertex.y = y;
+			}
+
+			if (z > boundBox.maxVertex.z) {
+				boundBox.maxVertex.z = z;
+			}
+			else if (z < boundBox.minVertex.z) {
+				boundBox.minVertex.z = z;
+			}
 			vertices.push_back(glm::vec3(x, y, z));
 		}
 		//Test for normal data "vn "
@@ -120,7 +140,7 @@ void ObjModelLoader::LoadMaterial(std::string _name) {
 }
 
 void ObjModelLoader::PostProcess() {
-	for (int i = 0; i < indices.size(); i++) {
+	for (unsigned int i = 0; i < indices.size(); i++) {
 		Vertex vert;
 		vert.position = vertices[indices[i]];
 		vert.normal = normals[normalIndices[i]];

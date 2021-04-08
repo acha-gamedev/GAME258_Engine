@@ -42,6 +42,12 @@ public:
 	inline std::vector<LightSource*> GetLights() const { return lights; }
 	//Returns the position of the camera
 	inline vec3 GetPosition() const { return position; }
+	//Handles mouse movement
+	//PARAMS: offset: the amount the mouse has been moved
+	void MouseMovement(const glm::ivec2 offset);
+	//Handles scrolling
+	//PARAMS: amount: the amount the scroll whell has been moved
+	void MouseScroll(const int amount);
 private:
 	void UpdateVectors();
 };

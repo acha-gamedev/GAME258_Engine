@@ -51,3 +51,31 @@ void Camera::UpdateVectors() {
 	up = normalize(cross(right, forward));
 	viewMatrix = lookAt(position, position + forward, up);
 }
+
+void Camera::MouseMovement(const glm::ivec2 offset) {
+	yaw += offset.x * 0.05f;
+	pitch += offset.y * 0.05f;
+
+	if (pitch > 89.0f) {
+		pitch = 89.0f;
+	}
+	else if (pitch < -89.0f) {
+		pitch = -89.0f;
+	}
+
+	if (yaw > 360.0f) {
+		yaw -= 360.0f;
+	}
+	else if (yaw < 0.0f) {
+		yaw += 360.0f;
+	}
+
+	UpdateVectors();
+}
+
+void Camera::MouseScroll(const int amount) {
+	if (abs(amount) > 0) {
+		position += forward * (amount * 2.0f);
+	}
+	UpdateVectors();
+}
