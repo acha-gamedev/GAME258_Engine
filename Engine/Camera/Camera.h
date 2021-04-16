@@ -42,6 +42,10 @@ public:
 	inline std::vector<LightSource*> GetLights() const { return lights; }
 	//Returns the position of the camera
 	inline vec3 GetPosition() const { return position; }
+	//Returns the near plane
+	inline float GetNearPlane() const { return nearPlane; }
+	//Returns the far plane
+	inline float GetFarPlane() const { return farPlane; }
 	//Handles mouse movement
 	//PARAMS: offset: the amount the mouse has been moved
 	void MouseMovement(const glm::ivec2 offset);

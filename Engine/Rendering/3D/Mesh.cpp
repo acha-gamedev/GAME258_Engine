@@ -1,5 +1,8 @@
 #include "Mesh.h"
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include "../../Math/Plane.h"
+#include <iostream>
 
 Mesh::Mesh(SubMesh& _submesh, GLuint _shader) : vao(0), vbo(0),
 	shader(_shader), modelLoc(0), viewLoc(0), projectionLoc(0), textureLoc(0) {
@@ -14,7 +17,7 @@ Mesh::~Mesh() {
 	submesh.indexList.clear();
 }
 
-void Mesh::Render(std::vector<glm::mat4> transform, const Camera* camera) {
+void Mesh::Render(std::vector<glm::mat4> transform, const Camera* camera, const BoundingBox bBox) {
 	glUniform1i(textureLoc, 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, submesh.material.diffuseMap);
@@ -36,8 +39,15 @@ void Mesh::Render(std::vector<glm::mat4> transform, const Camera* camera) {
 	glUniform3fv(matSpecLoc, 1, glm::value_ptr(submesh.material.specularColour));
 
 	for (unsigned int i = 0; i < transform.size(); i++) {
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform[i]));
-		glDrawArrays(GL_TRIANGLES, 0, submesh.vertices.size());
+		glm::vec4 temp = glm::vec4((bBox.minVertex + bBox.maxVertex) / 2.0f, 1.0f);
+		temp = camera->GetPerspectiveMatrix() * camera->GetViewMatrix() * transform[i] * temp;
+		if (fabs(temp.x) < fabs(temp.w) && fabs(temp.y) < fabs(temp.w) && fabs(temp.z) < fabs(temp.w)) {
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform[i]));
+			glDrawArrays(GL_TRIANGLES, 0, submesh.vertices.size());
+		}
+		else {
+			std::cout << "Not Rendering " << i << std::endl;
+		}
 	}
 
 	glBindVertexArray(0);

@@ -3,7 +3,7 @@
 #include <glm/gtx/string_cast.hpp>
 
 GameObject::GameObject(Model* _model) : position(0.0f, 0.0f, 0.0f), model(_model), modelInstance(0),
-	angle(0.0f), scale(0.0f, 0.0f, 0.0f), rotation(0.0f, 1.0f, 0.0f), tag("") {
+	angle(0.0f), scale(0.0f, 0.0f, 0.0f), rotation(0.0f, 1.0f, 0.0f), tag(""), hitStatus(false) {
 	if (model) {
 		modelInstance = model->CreateInstance(position, angle, rotation, scale);
 		boundingBox = model->GetBoundingBox();
@@ -14,9 +14,13 @@ GameObject::GameObject(Model* _model) : position(0.0f, 0.0f, 0.0f), model(_model
 }
 
 GameObject::GameObject(glm::vec3 _position, Model* _model) : position(_position), model(_model), modelInstance(0),
-	angle(0.0f), scale(0.0f, 0.0f, 0.0f), rotation(0.0f, 1.0f, 0.0f), tag("") {
+	angle(0.0f), scale(0.0f, 0.0f, 0.0f), rotation(0.0f, 1.0f, 0.0f), tag(""), hitStatus(false) {
 	if (model) {
 		modelInstance = model->CreateInstance(position, angle, rotation, scale);
+		boundingBox = model->GetBoundingBox();
+		boundingBox.transform = model->GetTransform(modelInstance);
+		std::cout << "MinVert: " << glm::to_string(boundingBox.minVertex) <<
+			", MaxVert: " << glm::to_string(boundingBox.maxVertex) << std::endl;
 	}
 }
 
@@ -93,5 +97,12 @@ void GameObject::SetScale(const glm::vec3 _scale) {
 			boundingBox.maxVertex.z *= scale.z;
 			boundingBox.minVertex.z *= scale.z;
 		}
+	}
+}
+
+void GameObject::SetHitStatus(bool _hitStatus, int buttonType) {
+	hitStatus = _hitStatus;
+	if (hitStatus) {
+		std::cout << tag << " was hit" << std::endl;
 	}
 }

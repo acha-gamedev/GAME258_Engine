@@ -1,7 +1,7 @@
 #include "ObjModelLoader.h"
 #include "../../Core/Debug.h"
 
-ObjModelLoader::ObjModelLoader() : material() {}
+ObjModelLoader::ObjModelLoader() : material(), boundBox() {}
 
 ObjModelLoader::~ObjModelLoader() {
 	vertices.clear();
@@ -39,6 +39,8 @@ void ObjModelLoader::LoadModel(std::string _objFilepath) {
 	}
 
 	std::string line;
+	boundBox.maxVertex = glm::vec3(-1000.0f);
+	boundBox.minVertex = glm::vec3(1000.0f);
 	while (std::getline(file, line)) {
 		//Test for position data "v "
 		if (line.substr(0, 2) == "v ") {
@@ -84,13 +86,18 @@ void ObjModelLoader::LoadModel(std::string _objFilepath) {
 		//Test for face data "f "
 		// point order is f v/t/n v/t/n v/t/n
 		else if (line.substr(0, 2) == "f ") {
-			std::string raw = line.substr(2);
-			while (raw.find("/") != std::string::npos) {
-				raw.replace(raw.find("/"), 1, " ");
-			}
-			std::stringstream format(raw);
+			//std::string raw = line.substr(2);
+			//while (raw.find("/") != std::string::npos) {
+			//	raw.replace(raw.find("/"), 1, " ");
+			//}
+			//std::stringstream format(raw);
 			unsigned int v1, t1, n1, v2, t2, n2, v3, t3, n3;
-			format >> v1 >> t1 >> n1 >> v2 >> t2 >> n2 >> v3 >> t3 >> n3;
+			//format >> v1 >> t1 >> n1 >> v2 >> t2 >> n2 >> v3 >> t3 >> n3;
+			std::stringstream format(line.substr(2));
+			char slash;
+			format >> v1 >> slash >> t1 >> slash >> n1 >>
+				v2 >> slash >> t2 >> slash >> n2 >>
+				v3 >> slash >> t3 >> slash >> n3;
 			indices.push_back(v1 - 1);
 			indices.push_back(v2 - 1);
 			indices.push_back(v3 - 1);

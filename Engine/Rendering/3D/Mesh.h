@@ -7,6 +7,7 @@
 #include "../ShaderHandler.h"
 #include "../../Camera/Camera.h"
 #include "../MaterialHandler.h"
+#include "../../Math/BoundingBox.h"
 
 struct Vertex {
 	glm::vec3 position;
@@ -32,7 +33,7 @@ public:
 	Mesh(SubMesh& _submesh, GLuint _shader);
 	~Mesh();
 	//Draw the mesh to the screen
-	void Render(std::vector<glm::mat4> transform, const Camera* camera);
+	void Render(std::vector<glm::mat4> transform, const Camera* camera, const BoundingBox bBox);
 
 private:
 

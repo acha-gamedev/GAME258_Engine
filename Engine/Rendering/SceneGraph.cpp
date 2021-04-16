@@ -1,4 +1,5 @@
 #include "SceneGraph.h"
+#include "../Math/CollisionHandler.h"
 
 std::unique_ptr<SceneGraph> SceneGraph::instance = nullptr;
 std::map<GLuint, std::vector<Model*>> SceneGraph::models = std::map<GLuint, std::vector<Model*>>();
@@ -42,6 +43,7 @@ void SceneGraph::AddGameObject(GameObject* _gameObject, std::string tag) {
 		_gameObject->SetTag(newTag);
 		gameObjects[newTag] = _gameObject;
 	}
+	CollisionHandler::GetInstance()->AddGameObject(_gameObject);
 }
 
 GameObject* SceneGraph::GetGameObject(std::string tag) {
@@ -64,6 +66,7 @@ void SceneGraph::Render(const Camera* camera) {
 			v->Render(camera);
 		}
 	}
+	glUseProgram(0);
 }
 
 void SceneGraph::OnDestroy() {

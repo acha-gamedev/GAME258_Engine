@@ -35,9 +35,9 @@ void Model::UpdateInstance(unsigned int index, glm::vec3 _position, float _angle
 }
 
 void Model::Render(const Camera* camera) {
-	glUseProgram(shader);
+	//glUseProgram(shader);
 	for (auto m : meshes) {
-		m->Render(instances, camera);
+		m->Render(instances, camera, boundBox);
 	}
 	//glUseProgram(0);
 }

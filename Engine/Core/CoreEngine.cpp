@@ -62,7 +62,9 @@ void CoreEngine::SetGameInstance(GameInterface* _gameInstance) {
 
 void CoreEngine::MousePressed(const int button, const glm::ivec2 position) {}
 
-void CoreEngine::MouseReleased(const int button, const glm::ivec2 position) {}
+void CoreEngine::MouseReleased(const int button, const glm::ivec2 position) {
+    CollisionHandler::GetInstance()->Update(position, button);
+}
 
 void CoreEngine::MouseMoved(const glm::ivec2 position) {
     if (currentCamera) {
@@ -93,6 +95,7 @@ void CoreEngine::Render() {
 }
 
 void CoreEngine::OnDestroy() {
+    CollisionHandler::GetInstance()->OnDestroy();
     SceneGraph::GetInstance()->OnDestroy();
     MaterialHandler::GetInstance()->OnDestroy();
     TextureHandler::GetInstance()->OnDestroy();
