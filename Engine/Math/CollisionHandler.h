@@ -3,6 +3,7 @@
 
 #include "Ray.h"
 #include "../Rendering/3D/GameObject.h"
+#include "../Core/OctSpatialPartition.h"
 #include <memory>
 #include <vector>
 
@@ -11,12 +12,14 @@ private:
 	static std::unique_ptr<CollisionHandler> instance;
 	friend std::default_delete<CollisionDetection>;
 
-	static std::vector<GameObject*> colliders;
+	OctSpatialPartition* partition;
+
+	//static std::vector<GameObject*> colliders;
 	static std::vector<GameObject*> previousCollisions;
 public:
 	static CollisionHandler* GetInstance();
 
-	void OnCreate();
+	void OnCreate(float worldSize);
 
 	void AddGameObject(GameObject* go);
 

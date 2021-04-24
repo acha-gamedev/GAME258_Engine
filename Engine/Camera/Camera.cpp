@@ -53,7 +53,7 @@ void Camera::UpdateVectors() {
 }
 
 void Camera::MouseMovement(const glm::ivec2 offset) {
-	float sensitivity = 0.05f;
+	float sensitivity = 0.10f;
 	yaw += offset.x * sensitivity;
 	pitch += offset.y * sensitivity;
 
